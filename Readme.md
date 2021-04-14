@@ -1,4 +1,4 @@
-## Boilerplate API IT Akademy
+## TP API IT Akademy
 
 ### Setup env
 
@@ -12,9 +12,9 @@ Run this command in your terminal :
 ### Setup the BDD
 
 Run these command in your terminal :  
-`sequelize db:migrate`  
+`npx sequelize db:migrate`  
   
-`sequelize db:seed:all`
+`npx sequelize db:seed:all`
 
 ### Launch server
 Run this command in your terminal :  
