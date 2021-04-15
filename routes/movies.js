@@ -1,4 +1,7 @@
 const MovieController = require('../controllers').MovieController;
+// const Movie = require('../models').Movie;
+
+
 
 let express = require('express');
 let router = express.Router();
@@ -7,7 +10,11 @@ router.get('/movies', async (req, res, next) => {
     res.json(await MovieController.getAll());
 });
 
-router.get('/movies/:id', async (req, res, next) => {
+router.get('/movie', MovieController.getPagination);
+
+router.get('/movie/:page', MovieController.getPagination);
+
+router.get('/movie/id/:id', async (req, res, next) => {
     const movie = await MovieController.getById(req.params.id);
     if (movie === null) {
         res.status(404).json({ "error": "Movie not found" });
@@ -15,6 +22,16 @@ router.get('/movies/:id', async (req, res, next) => {
     }
     res.json(movie);
 });
+
+
+// router.get('/movies/genres/:GenreId') , async (req, res) => {
+//     const genre = await Movie.query().where("GenreId", req.params.GenreId);
+//     if (genre === null) {
+//         res.status(404).json({ "error": "Genre not found" });
+//         return;
+//     }
+//     res.json(genre);
+// }
 
 router.post('/movies', async (req, res, next) => {
     if (req.body.title && req.body.description && req.body.year) {
@@ -51,5 +68,6 @@ router.delete('/movies/:id', async (req, res, next) => {
 
     res.status(204).json();
 });
+
 
 module.exports = router;

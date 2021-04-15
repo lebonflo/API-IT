@@ -5,6 +5,17 @@ class MovieController {
         return Movie.findAll();
     }
 
+    async getPagination(req, res) {
+        try {
+            let page = (parseInt(req.params.page));
+            let offset = ((page?page:0)*10);
+            const movies = await Movie.findAll({offset, limit: 10});
+            res.send(movies);
+        } catch (error) {
+            res.status(500).send({error})
+        }
+    }
+
     async getById(id) {
         return Movie.findByPk(id);
     }
