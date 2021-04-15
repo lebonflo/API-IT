@@ -1,7 +1,4 @@
 const MovieController = require('../controllers').MovieController;
-// const Movie = require('../models').Movie;
-
-
 
 let express = require('express');
 let router = express.Router();
@@ -22,16 +19,6 @@ router.get('/movie/id/:id', async (req, res, next) => {
     }
     res.json(movie);
 });
-
-
-// router.get('/movies/genres/:GenreId') , async (req, res) => {
-//     const genre = await Movie.query().where("GenreId", req.params.GenreId);
-//     if (genre === null) {
-//         res.status(404).json({ "error": "Genre not found" });
-//         return;
-//     }
-//     res.json(genre);
-// }
 
 router.post('/movies', async (req, res, next) => {
     if (req.body.title && req.body.description && req.body.year) {
@@ -62,12 +49,22 @@ router.patch('/movies/:id', async (req, res, next) => {
 router.delete('/movies/:id', async (req, res, next) => {
     const success = await MovieController.delete(req.params.id);
     if (!success) {
-        res.status(404).json({ 'error': 'Producer not found' });
+        res.status(404).json({ 'error': 'Movie not found' });
         return
     }
 
     res.status(204).json();
 });
 
+router.get('/movies/search', async (req, res, next) => {
+    const searchQuery = req.query.title;
+    try {
+        const searchList = await MovieController.search(searchQuery);
+        res.status(200).json(searchList);
+    }
+    catch {
+        res.status(404).json({ 'error': 'Movie not found' });
+    }
+});
 
 module.exports = router;

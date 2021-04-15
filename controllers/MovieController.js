@@ -1,4 +1,5 @@
 const Movie = require('../models').Movie;
+const { Op } = require("sequelize")
 
 class MovieController {
     async getAll() {
@@ -8,11 +9,11 @@ class MovieController {
     async getPagination(req, res) {
         try {
             let page = (parseInt(req.params.page));
-            let offset = ((page?page:0)*10);
-            const movies = await Movie.findAll({offset, limit: 10});
+            let offset = ((page ? page : 0) * 10);
+            const movies = await Movie.findAll({ offset, limit: 10 });
             res.send(movies);
         } catch (error) {
-            res.status(500).send({error})
+            res.status(500).send({ error })
         }
     }
 
@@ -42,6 +43,20 @@ class MovieController {
                 id: id
             }
         });
+    }
+
+    async search(title) {
+        return Movie.findAll({
+            where: {
+                title: {
+                    [Op.like]: `%${title}`
+                },
+            },
+        }).then((searchResult) => {
+            return searchResult
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
 }
