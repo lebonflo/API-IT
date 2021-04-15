@@ -9,8 +9,8 @@ router.get('/movies', async (req, res, next) => {
 
 router.get('/movies/:id', async (req, res, next) => {
     const movie = await MovieController.getById(req.params.id);
-    if (producer === null) {
-        res.status(404).json({ "error": "Producer not found" });
+    if (movie === null) {
+        res.status(404).json({ "error": "Movie not found" });
         return;
     }
     res.json(movie);
