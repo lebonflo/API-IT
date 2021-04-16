@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.Movie)
     }
-  };
+  }
+
   Genre.init({
     name: DataTypes.STRING
   }, {
